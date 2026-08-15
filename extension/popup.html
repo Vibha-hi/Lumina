@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LUMINA.AI Analyzer</title>
+  <style>
+    body {
+      width: 300px;
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #09090b;
+      color: #fafafa;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 12px;
+    }
+    
+    .header h2 {
+      margin: 0;
+      font-size: 18px;
+      background: linear-gradient(90deg, #a78bfa, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .status-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .status-text {
+      margin: 0 0 16px 0;
+      font-size: 14px;
+      color: #a1a1aa;
+    }
+    
+    .status-text strong {
+      color: white;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+    
+    .btn {
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    
+    .btn:hover {
+      background: #6d28d9;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.1);
+      margin-top: 8px;
+    }
+    
+    .btn.secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    .features {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #71717a;
+    }
+    
+    .features ul {
+      padding-left: 16px;
+      margin: 8px 0 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span style="font-size: 24px">✨</span>
+    <h2>LUMINA.AI</h2>
+  </div>
+  
+  <div class="status-card" id="status-container">
+    <!-- Rendered by JS -->
+    <p class="status-text">Checking status...</p>
+  </div>
+  
+  <div class="features">
+    Supported platforms:
+    <ul>
+      <li>LinkedIn, X (Twitter)</li>
+      <li>Facebook, Instagram</li>
+      <li>Reddit</li>
+    </ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

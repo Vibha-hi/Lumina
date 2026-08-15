@@ -1,0 +1,84 @@
+{
+  "description": "Sample request/response payloads for testing LUMINA.AI services",
+
+  "fullAnalysis": {
+    "request": {
+      "method": "POST",
+      "url": "/api/analyze",
+      "headers": {
+        "Authorization": "Bearer <your-jwt-token>",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "text": "My manager is completely useless and has no idea what they're doing. This company is a total joke. Call me at 555-123-4567 if you agree!",
+        "platform": "LinkedIn",
+        "contentType": "linkedin_post"
+      }
+    },
+    "response": {
+      "success": true,
+      "message": "Analysis complete",
+      "data": {
+        "id": "669a1b2c3d4e5f6a7b8c9d0e",
+        "overallRisk": 72,
+        "privacyRisk": 65,
+        "professionalRisk": 82,
+        "legalRisk": 45,
+        "misunderstandingRisk": 54,
+        "reachPotential": 38,
+        "summary": "This LinkedIn post has a high overall risk score of 72%. The dominant emotion is Anger (78%). 2 legal concern(s) were identified. 1 piece(s) of personal information were detected. Consider revising before publishing."
+      }
+    }
+  },
+
+  "guestAnalysis": {
+    "request": {
+      "method": "POST",
+      "url": "/api/analyze/guest",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "text": "Just had the worst experience at this restaurant. Never going back!",
+        "platform": "Instagram"
+      }
+    }
+  },
+
+  "signup": {
+    "request": {
+      "method": "POST",
+      "url": "/api/auth/signup",
+      "body": {
+        "name": "Jane Doe",
+        "email": "jane@example.com",
+        "password": "securepass123",
+        "confirmPassword": "securepass123",
+        "dob": "1995-03-15"
+      }
+    }
+  },
+
+  "login": {
+    "request": {
+      "method": "POST",
+      "url": "/api/auth/login",
+      "body": {
+        "email": "jane@example.com",
+        "password": "securepass123"
+      }
+    }
+  },
+
+  "feedback": {
+    "request": {
+      "method": "POST",
+      "url": "/api/feedback",
+      "body": {
+        "name": "Jane Doe",
+        "email": "jane@example.com",
+        "message": "Great tool! Love the emotion analysis feature. Would be amazing to see sentiment tracking over time."
+      }
+    }
+  }
+}
