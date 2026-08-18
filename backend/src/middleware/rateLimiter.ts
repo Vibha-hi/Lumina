@@ -45,12 +45,12 @@ export const otpLimiter = rateLimit({
 });
 
 /**
- * Analysis rate limiter: 10 requests per 15 minutes.
+ * Analysis rate limiter: 25 requests per 15 minutes.
  * Prevents abuse of compute-intensive analysis endpoints.
  */
 export const analysisLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 25,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
