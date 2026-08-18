@@ -225,7 +225,7 @@ export async function analyzeWithGroq(text: string, platform: string): Promise<G
   const url = `https://api.groq.com/openai/v1/chat/completions`;
 
   const body = {
-    model: "llama-3.3-70b-versatile",
+    model: "openai/gpt-oss-120b",
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
       {
@@ -315,7 +315,7 @@ export async function compareWithGroq(
   const url = `https://api.groq.com/openai/v1/chat/completions`;
 
   const body = {
-    model: "llama-3.3-70b-versatile",
+    model: "openai/gpt-oss-120b",
     messages: [
       { role: "system", content: COMPARE_SYSTEM_PROMPT },
       {
