@@ -1,5 +1,5 @@
 // API URL constants
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://lumina-0eyg.onrender.com/api";
 
 // Listen for messages from content scripts
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     handleAnalysisRequest(request.data)
       .then(result => sendResponse({ success: true, data: result }))
       .catch(error => sendResponse({ success: false, error: error.message }));
-    
+
     // Return true to indicate we wish to send a response asynchronously
     return true;
   }
@@ -26,12 +26,12 @@ async function handleAnalysisRequest({ text, platform }) {
   try {
     // Check if we have an auth token stored
     const { luminaToken } = await chrome.storage.local.get(["luminaToken"]);
-    
+
     const endpoint = luminaToken ? "/analyze" : "/analyze/guest";
     const headers = {
       "Content-Type": "application/json"
     };
-    
+
     if (luminaToken) {
       headers["Authorization"] = `Bearer ${luminaToken}`;
     }
@@ -45,14 +45,14 @@ async function handleAnalysisRequest({ text, platform }) {
       body: JSON.stringify({ text, platform, source: "extension" }),
       signal: controller.signal
     });
-    
+
     clearTimeout(timeoutId);
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       if (data.message === "You've used your free analysis. Create an account to continue analyzing content.") {
-         throw new Error("GUEST_LIMIT_REACHED");
+        throw new Error("GUEST_LIMIT_REACHED");
       }
       throw new Error(data.message || `API Error: ${response.status}`);
     }

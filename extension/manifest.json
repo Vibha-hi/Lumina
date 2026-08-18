@@ -29,16 +29,20 @@
         "https://*.instagram.com/*",
         "https://*.reddit.com/*"
       ],
-      "css": ["styles.css"],
-      "js": ["content.js"]
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "content.js"
+      ]
     },
     {
       "matches": [
-        "http://localhost:8080/*",
-        "http://127.0.0.1:8080/*",
-        "http://localhost:5173/*"
+        "https://lumina-ai-81zb.onrender.com/*"
       ],
-      "js": ["auth-sync.js"]
+      "js": [
+        "auth-sync.js"
+      ]
     }
   ],
   "permissions": [
@@ -48,9 +52,7 @@
     "tabs"
   ],
   "host_permissions": [
-    "http://localhost:5000/*",
-    "http://localhost:8080/*",
-    "http://127.0.0.1:8080/*",
-    "http://127.0.0.1:5000/*"
+    "https://lumina-0eyg.onrender.com/*",
+    "https://lumina-ai-81zb.onrender.com/*"
   ]
 }

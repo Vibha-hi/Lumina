@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const statusContainer = document.getElementById("status-container");
-  const WEB_APP_URL = "http://localhost:8080"; // Lumina.AI frontend URL
+  const WEB_APP_URL = "https://lumina-ai-81zb.onrender.com";  // Lumina.AI frontend URL
 
   // Check storage for token
   const { luminaToken } = await chrome.storage.local.get(["luminaToken"]);

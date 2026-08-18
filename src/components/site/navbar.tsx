@@ -38,7 +38,7 @@ export function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={cn(
-        "fixed top-6 inset-x-0 z-50 transition-all duration-300 flex justify-center pointer-events-none px-4",
+        "fixed top-6 inset-x-0 z-50 transition-all duration-300 flex flex-col items-center pointer-events-none px-4",
       )}
     >
       <div className={cn(
@@ -140,7 +140,7 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="lg:hidden glass-strong border-t border-glass-border px-4 py-3 flex flex-col">
+        <div className="lg:hidden pointer-events-auto w-full max-w-4xl rounded-2xl glass-strong border border-glass-border px-4 py-3 flex flex-col mt-2 shadow-soft">
           {NAV.map((n) => (
             <Link
               key={n.to}

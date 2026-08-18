@@ -4,7 +4,7 @@ const platforms = {
     host: "linkedin.com",
     name: "LinkedIn",
     composeSelector: 'div[role="textbox"]',
-    buttonContainer: '.share-creation-state__bottom-control', 
+    buttonContainer: '.share-creation-state__bottom-control',
     getContainer: (textbox) => textbox.closest('.share-creation-state') || textbox.parentElement,
     feedSelector: 'div.feed-shared-update-v2, div.update-components-text'
   },
@@ -94,18 +94,18 @@ document.addEventListener("mouseup", (e) => {
     // If valid text selected and no button exists, create it
     if (text.length >= 5 && text.length < 5000) {
       currentSelectedText = text; // Update the globally scoped variable
-      
+
       if (!selectionBtn) {
         selectionBtn = document.createElement("button");
         selectionBtn.className = "lumina-selection-btn";
         selectionBtn.innerHTML = "✨";
         document.body.appendChild(selectionBtn);
-        
+
         selectionBtn.addEventListener("mousedown", (e) => {
           e.preventDefault(); // Keep selection
           e.stopPropagation();
         });
-        
+
         selectionBtn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -114,11 +114,11 @@ document.addEventListener("mouseup", (e) => {
           triggerSelectionAnalysis(currentSelectedText, e.clientX, e.clientY);
         });
       }
-      
+
       // Position button near the end of selection (using fixed viewport coordinates)
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
-      
+
       selectionBtn.style.left = `${rect.right + 5}px`;
       selectionBtn.style.top = `${rect.bottom - 20}px`;
       selectionBtn.style.display = "flex";
@@ -144,17 +144,17 @@ document.addEventListener("mousedown", (e) => {
 function injectButton(textbox) {
   textbox.dataset.luminaInjected = "true";
   const container = currentPlatform.getContainer(textbox);
-  
+
   if (!container) return;
 
   const btn = document.createElement("button");
   btn.className = "lumina-analyze-btn";
   btn.innerHTML = `<span class="lumina-icon">✨</span> Analyze`;
-  
+
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Extract text depending on element type
     let text = "";
     if (textbox.tagName === "TEXTAREA") {
@@ -179,13 +179,13 @@ function injectButton(textbox) {
 function startAnalysis(buttonElement, text) {
   buttonElement.classList.add("lumina-loading");
   buttonElement.innerHTML = `<span class="lumina-spinner"></span> Analyzing...`;
-  
+
   // Create or show the UI panel
   let panel = document.getElementById("lumina-results-panel");
   if (!panel) {
     panel = createPanel();
   }
-  
+
   panel.classList.add("lumina-open");
   panel.innerHTML = `<div class="lumina-panel-loading">
     <div class="lumina-spinner large"></div>
@@ -201,7 +201,7 @@ function startAnalysis(buttonElement, text) {
   }, (response) => {
     buttonElement.classList.remove("lumina-loading");
     buttonElement.innerHTML = `<span class="lumina-icon">✨</span> Analyze`;
-    
+
     if (response && response.success) {
       let data = response.data;
       if (data.analysis) {
@@ -220,7 +220,7 @@ function createPanel() {
   const panel = document.createElement("div");
   panel.id = "lumina-results-panel";
   document.body.appendChild(panel);
-  
+
   // Close button functionality handled in render function
   return panel;
 }
@@ -238,18 +238,18 @@ function renderError(panel, errorMsg) {
     </div>
   `;
   attachCloseListener(panel);
-  
+
   const loginBtn = panel.querySelector(".lumina-login-btn");
   if (loginBtn) {
     loginBtn.addEventListener("click", () => {
-      window.open("http://localhost:8080/auth", "_blank");
+      window.open("https://lumina-ai-81zb.onrender.com/auth", "_blank");
     });
   }
 }
 
 function renderResults(panel, data) {
   const riskColor = data.overall_risk < 40 ? "green" : data.overall_risk < 70 ? "yellow" : "red";
-  
+
   panel.innerHTML = `
     <div class="lumina-panel-header">
       <h3>LUMINA.AI Analysis</h3>
@@ -300,9 +300,9 @@ function renderResults(panel, data) {
       ` : ''}
     </div>
   `;
-  
+
   attachCloseListener(panel);
-  
+
   const copyBtn = panel.querySelector('.lumina-copy-btn');
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
@@ -341,15 +341,15 @@ function triggerSelectionAnalysis(text, x, y) {
   const tooltip = document.createElement("div");
   tooltip.className = "lumina-hover-tooltip";
   tooltip.innerHTML = `<span class="lumina-spinner"></span> <span style="margin-left: 8px;">LUMINA analyzing...</span>`;
-  
+
   tooltip.style.left = `${x}px`;
   tooltip.style.top = `${y + 15}px`; // slightly below the cursor
   document.body.appendChild(tooltip);
-  
+
   // Track active tooltip to hide it on outside clicks
-  const observerEl = currentPlatform ? null : null; 
+  const observerEl = currentPlatform ? null : null;
   // wait we use global activeTooltip
-  
+
   chrome.runtime.sendMessage({
     action: "analyze",
     data: {
@@ -363,11 +363,11 @@ function triggerSelectionAnalysis(text, x, y) {
       setTimeout(() => tooltip.remove(), 3000);
       return;
     }
-    
+
     if (response && response.success) {
       let data = response.data.analysis || response.data;
       const riskColor = data.overall_risk < 40 ? "#10b981" : data.overall_risk < 70 ? "#f59e0b" : "#ef4444";
-      
+
       tooltip.innerHTML = `
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-size: 16px;">✨</span>
@@ -377,20 +377,20 @@ function triggerSelectionAnalysis(text, x, y) {
           </div>
         </div>
       `;
-      
+
       // Click tooltip to open full panel
       tooltip.style.cursor = "pointer";
       tooltip.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         let panel = document.getElementById("lumina-results-panel");
         if (!panel) panel = createPanel();
         panel.classList.add("lumina-open");
         renderResults(panel, data);
         tooltip.remove();
       });
-      
+
     } else {
       tooltip.innerHTML = `<span>⚠️ Failed to analyze - Please go to extension and log-in to Lumina</span>`;
       setTimeout(() => tooltip.remove(), 3000);
