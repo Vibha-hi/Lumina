@@ -53,10 +53,8 @@ export function errorHandler(
     message = "Token expired";
   }
 
-  // Log error in development
-  if (env.NODE_ENV === "development") {
-    console.error("❌ Error:", err);
-  }
+  // Log error (in both development and production for debugging)
+  console.error("❌ Error:", err);
 
   const response: Record<string, unknown> = {
     success: false,

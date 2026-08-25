@@ -1,6 +1,10 @@
+import dns from "dns";
 import { env } from "./config/env.js";
 import { connectDatabase, disconnectDatabase } from "./config/database.js";
 import app from "./app.js";
+
+// Force IPv4 resolution to prevent ENETUNREACH errors on Render for SMTP (Node 17+)
+dns.setDefaultResultOrder('ipv4first');
 
 const PORT = parseInt(env.PORT, 10);
 
