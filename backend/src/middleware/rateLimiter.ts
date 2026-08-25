@@ -12,6 +12,7 @@ export const generalLimiter = rateLimit({
     success: false,
     message: "Too many requests. Please try again in a few minutes.",
   },
+  validate: { xForwardedForHeader: false },
 });
 
 /**
@@ -27,6 +28,7 @@ export const authLimiter = rateLimit({
     success: false,
     message: "Too many authentication attempts. Please try again later.",
   },
+  validate: { xForwardedForHeader: false },
 });
 
 /**
@@ -42,6 +44,7 @@ export const otpLimiter = rateLimit({
     success: false,
     message: "Too many verification attempts. Please try again later.",
   },
+  validate: { xForwardedForHeader: false },
 });
 
 /**
@@ -57,4 +60,5 @@ export const analysisLimiter = rateLimit({
     success: false,
     message: "Analysis rate limit reached. Please wait before submitting another analysis.",
   },
+  validate: { xForwardedForHeader: false },
 });

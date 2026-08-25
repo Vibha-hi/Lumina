@@ -20,6 +20,7 @@ import feedbackRoutes from "./routes/feedback.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 // ─── Security Middleware ───────────────────────────────────────
 app.use(helmet());
