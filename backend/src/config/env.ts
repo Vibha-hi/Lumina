@@ -20,12 +20,9 @@ const envSchema = z.object({
   // Groq AI — used by the unified analysis service
   GROQ_API_KEY: z.string().default(""),
 
-  // SMTP Settings for emails
-  SMTP_HOST: z.string().default(""),
-  SMTP_PORT: z.string().default(""),
-  SMTP_USER: z.string().default(""),
-  SMTP_PASS: z.string().default(""),
-  SMTP_FROM: z.string().default(""),
+  // Resend email API (replaces SMTP — works on Render/Vercel)
+  RESEND_API_KEY: z.string().default(""),
+  RESEND_FROM: z.string().default("LUMINA.AI <onboarding@resend.dev>"),
 });
 
 function validateEnv() {
