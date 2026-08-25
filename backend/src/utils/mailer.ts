@@ -32,13 +32,17 @@ export const sendVerificationEmail = async (to: string, code: string) => {
   };
 
   if (resend) {
-    const { error } = await resend.emails.send(emailPayload);
-    if (error) {
-      console.error("❌ Resend email error:", error);
-      throw new Error(`Failed to send verification email: ${error.message}`);
+    try {
+      const { error } = await resend.emails.send(emailPayload);
+      if (error) {
+        console.error("❌ Resend email error (falling back to logs):", error);
+        console.log(`🔑 VERIFICATION CODE for ${to}: ${code}`);
+      }
+    } catch (err) {
+      console.error("❌ Email send failed (falling back to logs):", err);
+      console.log(`🔑 VERIFICATION CODE for ${to}: ${code}`);
     }
   } else {
-    // Fallback for development if RESEND_API_KEY is not configured
     console.log(`\n=================================================`);
     console.log(`📧 MOCK EMAIL SENT TO: ${to}`);
     console.log(`🔑 VERIFICATION CODE: ${code}`);
@@ -67,10 +71,15 @@ export const sendPasswordResetEmail = async (to: string, code: string) => {
   };
 
   if (resend) {
-    const { error } = await resend.emails.send(emailPayload);
-    if (error) {
-      console.error("❌ Resend email error:", error);
-      throw new Error(`Failed to send password reset email: ${error.message}`);
+    try {
+      const { error } = await resend.emails.send(emailPayload);
+      if (error) {
+        console.error("❌ Resend email error (falling back to logs):", error);
+        console.log(`🔑 RESET CODE for ${to}: ${code}`);
+      }
+    } catch (err) {
+      console.error("❌ Email send failed (falling back to logs):", err);
+      console.log(`🔑 RESET CODE for ${to}: ${code}`);
     }
   } else {
     console.log(`\n=================================================`);

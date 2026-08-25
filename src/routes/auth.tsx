@@ -79,9 +79,15 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
-        await apiSignup(displayName || email.split("@")[0], email.trim(), password);
-        toast.success("OTP sent to your email!");
-        setOtpSent(true);
+        const res = await apiSignup(displayName || email.split("@")[0], email.trim(), password);
+        // Signup now returns token directly (no OTP step)
+        if (res.data && (res.data as any).token) {
+          const { setToken } = await import("@/lib/api");
+          setToken((res.data as any).token);
+        }
+        toast.success("Account created! Welcome to LUMINA.AI");
+        await refreshUser();
+        navigate({ to: "/dashboard" });
       } else {
         await apiLogin(email.trim(), password);
         toast.success("Signed in");

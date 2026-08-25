@@ -28,27 +28,40 @@ export const signup = catchAsync(async (req: Request, res: Response) => {
     throw new AppError("An account with this email already exists", 409);
   }
 
-  // Generate OTP
-  const verificationCode = generateOTP();
-  const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 mins
-
-  // Delete any existing OTP session for this email
-  await OtpSession.deleteOne({ email });
-
-  // Store in OTP Session
-  await OtpSession.create({
+  // Create the user directly (no OTP verification needed)
+  const user = await User.create({
     name,
     email,
     password,
     dob: dob || null,
-    verificationCode,
-    expiresAt,
+    provider: "email",
+    isVerified: true,
   });
 
-  // Send email
-  await sendVerificationEmail(email, verificationCode);
+  // Create default settings
+  await Settings.create({ userId: user._id });
 
-  sendSuccess(res, null, "OTP sent successfully to your email.", 201);
+  // Generate JWT
+  const token = signToken({ userId: user._id.toString(), email: user.email });
+
+  sendSuccess(
+    res,
+    {
+      token,
+      user: {
+        id: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        avatar_url: user.avatar_url || null,
+        provider: user.provider,
+        role: user.role,
+        isVerified: user.isVerified,
+        createdAt: user.createdAt.toISOString(),
+      },
+    },
+    "Account created successfully",
+    201,
+  );
 });
 
 /**

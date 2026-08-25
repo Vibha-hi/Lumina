@@ -30,8 +30,8 @@ app.use(
       // Allow requests with no origin or from extension
       if (!origin || origin.startsWith("chrome-extension://")) return callback(null, true);
       
-      // Allow localhost in development
-      if (origin.includes("localhost") || origin.includes("127.0.0.1")) return callback(null, true);
+      // Allow localhost and private network IPs in development
+      if (origin.includes("localhost") || origin.includes("127.0.0.1") || origin.match(/^https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/)) return callback(null, true);
       
       const allowedOrigins = env.CORS_ORIGIN.split(",").map((o) => o.trim());
       if (allowedOrigins.includes(origin) || allowedOrigins.includes("*")) {
